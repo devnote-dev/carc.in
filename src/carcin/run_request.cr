@@ -1,5 +1,3 @@
-require "json"
-
 module Carcin
   class RunRequest
     include JSON::Serializable

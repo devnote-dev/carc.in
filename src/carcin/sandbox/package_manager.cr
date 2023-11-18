@@ -1,5 +1,3 @@
-require "../core_ext/process"
-
 module Carcin::Sandbox::PackageManager
   PKG_BASEPATH = File.join Carcin::SANDBOX_BASEPATH, "pkgs"
 

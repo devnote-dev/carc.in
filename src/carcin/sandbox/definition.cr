@@ -1,5 +1,3 @@
-require "json"
-
 module Carcin::Sandbox
   class Definition
     include JSON::Serializable

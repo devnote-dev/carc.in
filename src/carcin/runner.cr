@@ -1,5 +1,3 @@
-require "./core_ext/process"
-
 module Carcin
   module Runner
     RUNNERS = {} of String => Runner

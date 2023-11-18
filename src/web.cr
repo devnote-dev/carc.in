@@ -1,10 +1,7 @@
 require "http/server"
-
 require "artanis"
 
 require "./carcin"
-require "./carcin/core_ext/enumerable"
-require "./carcin/core_ext/json"
 
 class App < Artanis::Application
   options "*" do
@@ -78,7 +75,7 @@ class App < Artanis::Application
     body = request.body
     return unprocessable("no body") unless body
 
-    run_request = Carcin::RunRequest.from_json? body, "run_request"
+    run_request = Carcin::RunRequest.from_json(body, "run_request") rescue nil
     return unprocessable("can't parse request") unless run_request
 
     with_error_handling do
@@ -94,10 +91,11 @@ class App < Artanis::Application
 
   private def client_ip
     headers = request.headers
-    {"CLIENT_IP", "X_FORWARDED_FOR", "X_FORWARDED", "X_CLUSTER_CLIENT_IP", "FORWARDED"}.find_value { |header|
-      dashed_header = header.tr("_", "-")
-      headers[header]? || headers[dashed_header]? || headers["HTTP_#{header}"]? || headers["Http-#{dashed_header}"]?
-    }.try &.split(',').first
+
+    {"CLIENT_IP", "X_FORWARDED_FOR", "X_FORWARDED", "X_CLUSTER_CLIENT_IP", "FORWARDED"}.find do |header|
+      dashed = header.tr "_", "-"
+      headers[header]? || headers[dashed]? || headers["HTTP_#{header}"]? || headers["Http-#{dashed}"]?
+    end.try &.split(',').first
   end
 
   private def unprocessable(message)

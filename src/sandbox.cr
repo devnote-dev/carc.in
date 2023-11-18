@@ -1,6 +1,11 @@
 require "./carcin"
-require "./carcin/core_ext/process"
 require "./carcin/sandbox/*"
+
+class Process
+  def self.uid
+    LibC.getuid
+  end
+end
 
 unless Process.uid == 0
   abort "This command must be run with root permissions."
