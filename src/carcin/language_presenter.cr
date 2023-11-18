@@ -1,13 +1,13 @@
 module Carcin
   class LanguagePresenter
-    JSON.mapping({
-      id: String,
-      name: String,
-      versions: Array(String)
-    }, true)
+    include JSON::Serializable
+
+    getter id : String
+    getter name : String
+    getter versions : Array(String)
 
     def initialize(@name, runner)
-      @id       = runner.short_name
+      @id = runner.short_name
       @versions = runner.versions
     end
   end

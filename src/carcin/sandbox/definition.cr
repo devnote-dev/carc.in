@@ -2,17 +2,17 @@ require "json"
 
 module Carcin::Sandbox
   class Definition
-    JSON.mapping({
-      name:                     String,
-      versions:                 Array(String),
-      split_packages:           {type: Array(String), nilable: true},
-      binary:                   {type: String, nilable: true},
-      dependencies:             Array(String),
-      aur_dependencies:         Array(String),
-      timeout:                  Int32,
-      memory:                   {type: Int32, nilable: true},
-      max_tasks:                Int32,
-      allowed_programs:         Array(String)
-      }, true)
+    include JSON::Serializable
+
+    getter name : String
+    getter versions : Array(String)
+    getter split_packages : Array(String)?
+    getter binary : String?
+    getter dependencies : Array(String)
+    getter aur_dependencies : Array(String)
+    getter timeout : Int32
+    getter memory : Int32?
+    getter max_tasks : Int32
+    getter allowed_programs : Array(String)
   end
 end

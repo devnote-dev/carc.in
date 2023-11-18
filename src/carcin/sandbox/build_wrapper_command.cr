@@ -23,7 +23,7 @@ class Carcin::Sandbox::BuildWrapperCommand
 
   include Command
 
-  def execute(definition, version, learn_mode=false)
+  def execute(definition, version, learn_mode = false)
     ensure_path_to definition
 
     wrapper = wrapper_path definition, version

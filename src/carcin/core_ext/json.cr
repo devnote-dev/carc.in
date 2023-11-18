@@ -1,6 +1,6 @@
 require "json"
 
-def Object.from_json?(json, root=nil)
+def Object.from_json?(json, root = nil)
   if root
     object = JSON.parse(json)
     object = object[root]?
@@ -9,4 +9,3 @@ def Object.from_json?(json, root=nil)
   from_json json
 rescue e : JSON::ParseException
 end
-

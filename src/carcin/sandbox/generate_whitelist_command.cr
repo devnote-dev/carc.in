@@ -3,7 +3,7 @@ require "./command"
 class Carcin::Sandbox::GenerateWhitelistCommand
   include Command
 
-  def initialize(@force=false)
+  def initialize(@force = false)
   end
 
   def execute(definition, version)
@@ -42,4 +42,3 @@ class Carcin::Sandbox::GenerateWhitelistCommand
     BuildWrapperCommand.new.execute(definition, version, false)
   end
 end
-

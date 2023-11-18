@@ -3,7 +3,7 @@ require "../core_ext/process"
 module Carcin::Sandbox::PackageManager
   PKG_BASEPATH = File.join Carcin::SANDBOX_BASEPATH, "pkgs"
 
-  def ensure_package_exists(sandbox, name, version=nil, extra_names=nil)
+  def ensure_package_exists(sandbox, name, version = nil, extra_names = nil)
     packages = package_paths(sandbox, name, version, extra_names)
 
     if packages.empty?
@@ -17,7 +17,7 @@ module Carcin::Sandbox::PackageManager
     end
   end
 
-  def install_package(sandbox, name, version=nil, extra_names=nil)
+  def install_package(sandbox, name, version = nil, extra_names = nil)
     packages = package_paths(sandbox, name, version, extra_names)
 
     if packages.empty?
@@ -29,7 +29,7 @@ module Carcin::Sandbox::PackageManager
       system %(cp "#{path}" "#{target}")
     end
 
-    success = chrooted_system sandbox, "pacman --noconfirm -U #{packages.map {|package| "/#{package.first}" }.join(" ")}"
+    success = chrooted_system sandbox, "pacman --noconfirm -U #{packages.map { |package| "/#{package.first}" }.join(" ")}"
 
     packages.each do |package|
       name, path, target = package
@@ -41,11 +41,11 @@ module Carcin::Sandbox::PackageManager
     end
   end
 
-  private def package_paths(sandbox, name, version=nil, extra_names=nil)
+  private def package_paths(sandbox, name, version = nil, extra_names = nil)
     extra_names ||= [] of String
     package_names = [name].concat extra_names
     pattern = File.join(PKG_BASEPATH, "#{name}", "{#{package_names.join(",")}}-#{version}*.pkg.tar.*")
-    packages = Dir[pattern].map {|path|
+    packages = Dir[pattern].map { |path|
       name = File.basename(path)
       {name, path, File.join(sandbox, name)}
     }

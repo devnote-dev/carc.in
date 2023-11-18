@@ -5,7 +5,7 @@ class Carcin::Sandbox::DropCommand
   include Command
   include BtrfsSubvolumeCommands
 
-  def initialize(@confirm=true)
+  def initialize(@confirm = true)
   end
 
   def execute(definition, version)

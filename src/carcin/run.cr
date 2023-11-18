@@ -1,15 +1,15 @@
 module Carcin
   class Run
     getter! error
-    getter  id : Int32?
-    getter  language : String
-    getter  version : String?
-    getter  code : String
-    getter  stdout : String
-    getter  stderr : String
-    getter  exit_code : Int32
-    getter  author_ip : String
-    getter  created_at : Time?
+    getter id : Int32?
+    getter language : String
+    getter version : String?
+    getter code : String
+    getter stdout : String
+    getter stderr : String
+    getter exit_code : Int32
+    getter author_ip : String
+    getter created_at : Time?
 
     class Failed < Run
       def initialize(request, @error)
@@ -37,14 +37,14 @@ module Carcin
         id
       ) do |result|
         new result.read(Int32),
-            result.read(String),
-            result.read(String),
-            result.read(String),
-            result.read(String),
-            result.read(String),
-            result.read(Int32),
-            result.read(String),
-            result.read(Time)
+          result.read(String),
+          result.read(String),
+          result.read(String),
+          result.read(String),
+          result.read(String),
+          result.read(Int32),
+          result.read(String),
+          result.read(Time)
       end
     end
 
@@ -98,7 +98,7 @@ module Carcin
            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, created_at AT TIME ZONE 'UTC' AS created_at",
           @language, @version, @code, @stdout, @stderr, @exit_code, @author_ip
         ) do |result|
-          @id         = result.read(Int32)
+          @id = result.read(Int32)
           @created_at = result.read(Time)
         end
         true
@@ -106,4 +106,3 @@ module Carcin
     end
   end
 end
-

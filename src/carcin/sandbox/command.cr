@@ -53,8 +53,9 @@ module Carcin::Sandbox
     end
 
     @definitions : Array(Definition)?
+
     def definitions
-      @definitions ||= Dir["#{Carcin::SANDBOX_BASEPATH}/definitions/*.json"].map {|path|
+      @definitions ||= Dir["#{Carcin::SANDBOX_BASEPATH}/definitions/*.json"].map { |path|
         begin
           Definition.from_json File.read(path)
         rescue e
@@ -67,7 +68,7 @@ module Carcin::Sandbox
       Dir.mkdir_p path_to(definition)
     end
 
-    def path_to(definition, version=nil)
+    def path_to(definition, version = nil)
       path = File.join Carcin::SANDBOX_BASEPATH, definition.name
       version ? File.join(path, version) : path
     end

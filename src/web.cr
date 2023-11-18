@@ -6,28 +6,27 @@ require "./carcin"
 require "./carcin/core_ext/enumerable"
 require "./carcin/core_ext/json"
 
-
 class App < Artanis::Application
   options "*" do
     status 204
     headers({
       "Access-Control-Allow-Origin":  "*",
       "Access-Control-Allow-Methods": "GET, POST, PATCH, PUT, DELETE",
-      "Access-Control-Allow-Headers": "Content-Type"
+      "Access-Control-Allow-Headers": "Content-Type",
     })
     ""
   end
 
   get "/" do
     json({
-      "languages_url": "#{Carcin::BASE_URL}/languages",
-      "run_url": "#{Carcin::BASE_URL}/runs/{id}",
-      "run_request_url": "#{Carcin::BASE_URL}/run_requests"
+      "languages_url":   "#{Carcin::BASE_URL}/languages",
+      "run_url":         "#{Carcin::BASE_URL}/runs/{id}",
+      "run_request_url": "#{Carcin::BASE_URL}/run_requests",
     })
   end
 
   get "/languages" do
-    json({"languages": Carcin::Runner::RUNNERS.map {|name, runner|
+    json({"languages": Carcin::Runner::RUNNERS.map { |name, runner|
       Carcin::LanguagePresenter.new(name, runner)
     }.reject(&.versions.empty?)})
   end
@@ -38,8 +37,8 @@ class App < Artanis::Application
 
       if run
         headers({
-          "Content-Type": "text/plain; charset=utf8",
-          "Content-Disposition": "attachment; filename=#{params["id"]}.cr"
+          "Content-Type":        "text/plain; charset=utf8",
+          "Content-Disposition": "attachment; filename=#{params["id"]}.cr",
         })
         status 200
         run.code
@@ -95,7 +94,7 @@ class App < Artanis::Application
 
   private def client_ip
     headers = request.headers
-    {"CLIENT_IP", "X_FORWARDED_FOR", "X_FORWARDED", "X_CLUSTER_CLIENT_IP", "FORWARDED"}.find_value {|header|
+    {"CLIENT_IP", "X_FORWARDED_FOR", "X_FORWARDED", "X_CLUSTER_CLIENT_IP", "FORWARDED"}.find_value { |header|
       dashed_header = header.tr("_", "-")
       headers[header]? || headers[dashed_header]? || headers["HTTP_#{header}"]? || headers["Http-#{dashed_header}"]?
     }.try &.split(',').first
@@ -124,10 +123,10 @@ class App < Artanis::Application
     json({"error": {"message": message}}, code)
   end
 
-  private def json(object, code=200)
+  private def json(object, code = 200)
     headers({
       "Content-Type":                "application/json; charset=utf-8",
-      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Origin": "*",
     })
     status code
     object.to_json

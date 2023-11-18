@@ -3,7 +3,7 @@ class Carcin::Sandbox::Cli
     language: {
       "build-base": "base",
       "drop-base":  "base",
-      "update":     "base"
+      "update":     "base",
     },
     version: {
       "build-base":         nil,
@@ -13,8 +13,8 @@ class Carcin::Sandbox::Cli
       "drop":               "all",
       "rebuild":            "all",
       "build-wrapper":      "all",
-      "generate-whitelist": "all"
-    }
+      "generate-whitelist": "all",
+    },
   }
 
   @command : String
@@ -24,9 +24,9 @@ class Carcin::Sandbox::Cli
   def initialize(arguments)
     help if (arguments & %w(help -h --help)).any? || arguments.empty?
 
-    @command  = arguments[0]
+    @command = arguments[0]
     @language = arguments[1]? || ARGUMENT_DEFAULTS[:language].fetch(@command) { help "No target given" }
-    @version  = arguments[2]? || ARGUMENT_DEFAULTS[:version].fetch(@command) { help "No version given" }
+    @version = arguments[2]? || ARGUMENT_DEFAULTS[:version].fetch(@command) { help "No version given" }
   end
 
   def run(commands)
@@ -34,7 +34,7 @@ class Carcin::Sandbox::Cli
     command.run(@language, @version)
   end
 
-  def help(reason=nil)
+  def help(reason = nil)
     puts "#{reason}\n\n" if reason
     puts "Build and manage sandboxes"
     puts

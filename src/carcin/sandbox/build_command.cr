@@ -29,4 +29,3 @@ class Carcin::Sandbox::BuildCommand
     GenerateWhitelistCommand.new.execute(definition, version)
   end
 end
-

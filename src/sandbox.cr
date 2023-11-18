@@ -29,5 +29,5 @@ Carcin::Sandbox::Cli.new(ARGV).run({
   "drop":               Carcin::Sandbox::DropCommand.new,
   "rebuild":            Carcin::Sandbox::RebuildCommand.new,
   "build-wrapper":      Carcin::Sandbox::BuildWrapperCommand.new,
-  "generate-whitelist": Carcin::Sandbox::GenerateWhitelistCommand.new(true)
+  "generate-whitelist": Carcin::Sandbox::GenerateWhitelistCommand.new(true),
 })

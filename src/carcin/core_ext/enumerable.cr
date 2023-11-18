@@ -1,5 +1,5 @@
 module Enumerable
-  def find_value(fallback=nil)
+  def find_value(fallback = nil)
     each do |item|
       value = yield item
       return value if value
@@ -7,4 +7,3 @@ module Enumerable
     fallback
   end
 end
-

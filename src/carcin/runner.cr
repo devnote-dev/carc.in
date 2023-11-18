@@ -54,8 +54,8 @@ module Carcin
       end
 
       def versions
-        @versions ||= Dir.entries(sandbox_basepath).select {|path|
-            !{".", ".."}.includes?(path) && File.directory?(File.join(sandbox_basepath, path))
+        @versions ||= Dir.entries(sandbox_basepath).select { |path|
+          !{".", ".."}.includes?(path) && File.directory?(File.join(sandbox_basepath, path))
         }.sort_by(&.split(".").map(&.to_i)).reverse
       end
 
@@ -92,6 +92,7 @@ module Carcin
         ["eval", request.code]
       end
     end
+
     register "crystal", Crystal.new
 
     class Ruby
@@ -105,6 +106,7 @@ module Carcin
         ["-E", "UTF-8", "-e", request.code]
       end
     end
+
     register "ruby", Ruby.new
 
     class Gcc
@@ -122,6 +124,7 @@ module Carcin
       def wrapper_arguments(request)
       end
     end
+
     register "gcc", Gcc.new
   end
 end
