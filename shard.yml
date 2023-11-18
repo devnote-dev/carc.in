@@ -1,17 +1,23 @@
 name: carcin
-version: 0.1.0
-license: MIT
-crystal: 0.31.0
+description: Compile & Run Code In
+authors:
+  - Jonne Haß <me@jhass.eu>
 
-targets:
-  web:
-    main: src/web.cr
-  sandbox:
-    main: src/sandbox.cr
+version: 0.1.0
+crystal: ">= 1.10.1"
+license: MIT
 
 dependencies:
   artanis:
     github: ysbaddaden/artanis
     branch: master
+
   pg:
     github: will/crystal-pg
+
+targets:
+  web:
+    main: src/web.cr
+
+  sandbox:
+    main: src/sandbox.cr
