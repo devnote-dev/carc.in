@@ -23,9 +23,13 @@ class App < Artanis::Application
   end
 
   get "/languages" do
-    json({"languages": Carcin::Runner::RUNNERS.map { |name, runner|
-      Carcin::LanguagePresenter.new(name, runner)
-    }.reject(&.versions.empty?)})
+    languages = Carcin::Runner::RUNNERS
+      .reject { |_, r| r.versions.empty? }
+      .map do |name, runner|
+        {id: runner.short_name, name: name, versions: runner.versions}
+      end
+
+    json({languages: languages})
   end
 
   get "/runs/:id.cr" do

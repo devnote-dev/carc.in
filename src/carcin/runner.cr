@@ -35,7 +35,7 @@ module Carcin
     end
 
     abstract def execute(request)
-    abstract def versions
+    abstract def versions : Array(String)
     abstract def short_name
 
     module StandardRunner
@@ -48,13 +48,11 @@ module Carcin
       end
 
       def sandbox_basepath
-        @sandbox_basepath ||= File.join Carcin::SANDBOX_BASEPATH, name
+        @sandbox_basepath ||= File.join Carcin::SANDBOX_BASEPATH, name + ".json"
       end
 
-      def versions
-        @versions ||= Dir.entries(sandbox_basepath).select { |path|
-          !{".", ".."}.includes?(path) && File.directory?(File.join(sandbox_basepath, path))
-        }.sort_by(&.split(".").map(&.to_i)).reverse
+      def versions : Array(String)
+        @versions ||= JSON.parse(File.read(sandbox_basepath))["versions"].as_a.map(&.as_s).reverse!
       end
 
       def execute(request)
