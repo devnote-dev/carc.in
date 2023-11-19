@@ -1,3 +1,5 @@
+require "option_parser"
+
 require "./carcin"
 require "./carcin/sandbox/*"
 
@@ -26,13 +28,40 @@ unless fs_type == "btrfs"
   abort "#{Carcin::SANDBOX_BASEPATH} must be on a btrfs filesystem."
 end
 
-Carcin::Sandbox::Cli.new(ARGV).run({
-  "build-base":         Carcin::Sandbox::BuildBaseCommand.new,
-  "drop-base":          Carcin::Sandbox::DropBaseCommand.new,
-  "update":             Carcin::Sandbox::UpdateBaseCommand.new,
-  "build":              Carcin::Sandbox::BuildCommand.new,
-  "drop":               Carcin::Sandbox::DropCommand.new,
-  "rebuild":            Carcin::Sandbox::RebuildCommand.new,
-  "build-wrapper":      Carcin::Sandbox::BuildWrapperCommand.new,
-  "generate-whitelist": Carcin::Sandbox::GenerateWhitelistCommand.new(true),
-})
+OptionParser.parse do |parser|
+  parser.banner = "Build and manage sandboxes"
+
+  parser.on("build LANGUAGE [VERSION]", "build (all) sandboxes") do |lang, version|
+    Carcin::Sandbox::BuildCommand.new.execute(lang || "all")
+  end
+
+  parser.on("build-base LANGUAGE", "build base chroot") do |lang|
+    Carcin::Sandbox::BuildBaseCommand.new.execute lang
+  end
+
+  parser.on("build-wrapper LANGUAGE", "(Re)build (all) playpen wrappers") do |lang|
+    Carcin::Sandbox::BuildWrapperCommand.new.execute(lang || "all")
+  end
+
+  parser.on("rebuild LANGUAGE [VERSION]", "rebuild (all) sandboxes") do |lang, version|
+    Carcin::Sandbox::RebuildCommand.new.execute(lang || "all")
+  end
+
+  parser.on("update LANGUAGE", "update base chroot and rebuild (all) sandbox bases") do |lang|
+    Carcin::Sandbox::UpdateBaseCommand.new.execute lang
+  end
+
+  parser.on("drop LANGUAGE [VERSION]", "drop (all) sandboxes") do |lang, version|
+    Carcin::Sandbox::DropCommand.new.execute(lang || "all")
+  end
+
+  parser.on("drop-base LANGUAGE", "drop base chroot") do |lang|
+    Carcin::Sandbox::DropBaseCommand.new.execute lang
+  end
+
+  parser.on("gen-whitelist LANGUAGE", "generate new syscall whitelist") do |lang|
+    Carcin::Sandbox::GenerateWhitelistCommand.new(true).execute(lang || "all")
+  end
+
+  parser.on("-h", "--help", "show help information") { puts parser }
+end
