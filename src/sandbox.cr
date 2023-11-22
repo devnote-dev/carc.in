@@ -31,7 +31,7 @@ end
 OptionParser.parse do |parser|
   parser.banner = "Build and manage sandboxes"
 
-  parser.on("build LANGUAGE [VERSION]", "build (all) sandboxes") do |lang, version|
+  parser.on("build LANGUAGE [VERSION]", "build (all) sandboxes") do |lang, _|
     Carcin::Sandbox::BuildCommand.new.execute(lang || "all")
   end
 
@@ -43,7 +43,7 @@ OptionParser.parse do |parser|
     Carcin::Sandbox::BuildWrapperCommand.new.execute(lang || "all")
   end
 
-  parser.on("rebuild LANGUAGE [VERSION]", "rebuild (all) sandboxes") do |lang, version|
+  parser.on("rebuild LANGUAGE [VERSION]", "rebuild (all) sandboxes") do |lang, _|
     Carcin::Sandbox::RebuildCommand.new.execute(lang || "all")
   end
 
@@ -51,7 +51,7 @@ OptionParser.parse do |parser|
     Carcin::Sandbox::UpdateBaseCommand.new.execute lang
   end
 
-  parser.on("drop LANGUAGE [VERSION]", "drop (all) sandboxes") do |lang, version|
+  parser.on("drop LANGUAGE [VERSION]", "drop (all) sandboxes") do |lang, _|
     Carcin::Sandbox::DropCommand.new.execute(lang || "all")
   end
 
